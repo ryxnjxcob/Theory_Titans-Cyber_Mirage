@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyber Mirage</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      color: #673ab7;
+      margin: 0;
+    }
+
+    .header .subtitle {
+      color: #888;
+      font-size: 14px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .input-group input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      margin: 8px 0;
+      transition: background-color 0.3s;
+    }
+
+    .btn-primary {
+      background-color: #673ab7;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #5e35b1;
+    }
+
+    .btn-secondary {
+      background-color: #eee;
+      color: #333;
+    }
+
+    .scan-options {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .switch-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+      margin-right: 10px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0;
+      right: 0; bottom: 0;
+      background-color: #ccc;
+      border-radius: 20px;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 14px;
+      width: 14px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: .4s;
+    }
+
+    input:checked + .slider {
+      background-color: #673ab7;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+
+    .scan-result, .scan-status {
+      font-size: 14px;
+      text-align: center;
+      margin-top: 10px;
+      color: #555;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .stat-card {
+      background-color: #f1f1f1;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: #666;
+    }
+
+    .footer-actions {
+      margin-top: 20px;
+    }
+
+    .footer-actions .btn {
+      margin-bottom: 10px;
+    }
+
+    hr {
+      margin: 20px 0;
+      border: 0;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Cyber Mirage</h1>
+      <p class="subtitle">Smart Website Privacy & Security Scanner</p>
+    </div>
+
+    <div class="input-group">
+      <label for="apiKey">API Key</label>
+      <input type="text" id="apiKey" placeholder="Enter API Key" />
+      
+    </div>
+
+    <div class="scan-options">
+      <div class="switch-container">
+        <label class="switch">
+          <input type="checkbox" id="enableHoverCheck" />
+          <span class="slider"></span>
+        </label>
+        <span class="switch-label">Enable Hover Check</span>
+      </div>
+    </div>
+
+    <button id="scanButton" class="btn btn-primary">🔍 Scan Website</button>
+    <button id="saveSettings" class="btn btn-secondary">💾 Save Settings</button>
+    <button id="fakeFillButton" class="btn btn-secondary">🛡️ Fill Fake Data</button>
+    <center><p id="fillResult">Click "Fill Fake Data" to protect your privacy.</p></center>
+
+    <p id="scanResult" class="scan-result">Click "Scan Website" to analyze.</p>
+    <div id="scanStatus" class="scan-status"></div>
+
+    <hr>
+
+    <button id="deepScanButton" class="btn btn-primary">🔍 Deep Vulnerability Scan</button>
+
+    <div id="deepScanResults"></div>
+
+    <h2>Security Insights</h2>
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-value"> <span id="totalScans">0</span> </div>
+    <div class="stat-label">Total Scanned</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value"> <span id="safeSites">0</span> </div>
+    <div class="stat-label">Safe Sites</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value"> <span id="phishingSites">0</span> </div>
+    <div class="stat-label">Phishing Sites</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value"> <span id="fakeDataCount">0</span> </div>
+    <div class="stat-label">Fake Data Injections</div>
+  </div>
+</div>
+
+<hr>
+
+    <div class="footer-actions">
+      <button id="generateReportBtn" class="btn btn-secondary">📄 Generate Report</button>
+      <button id="reportBtn" class="btn btn-secondary">🚨 Report Suspicious Page</button>
+      <button id="resetStats" class="btn btn-secondary">🔄 Reset Stats</button>
+      <button id="scanLinksBtn" class="btn btn-secondary">🌐 Deep Scan Resources</button>
+    </div>
+
+    <div id="scanResults"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

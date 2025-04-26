@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Web Security Scanner",
+  "version": "1.0",
+  "description": "Analyzes websites for security threats using VirusTotal API",
+  "permissions": ["storage", "activeTab", "tabs", "scripting"],
+  "host_permissions": [
+    "https://www.virustotal.com/*",
+    "https://v0.blob.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content-script.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "48": "assets/icon48.png",
+      "128": "assets/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  },
+  "options_page": "options/options.html",
+  "web_accessible_resources": [
+    {
+      "resources": ["*.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; connect-src 'self' https://www.virustotal.com https://v0.blob.com;"
+  }
+}
